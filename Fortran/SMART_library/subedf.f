@@ -1,0 +1,24 @@
+      SUBROUTINE SUBEDF(X,MV,MV2,N,EDF)
+C
+CD        CODED BY T.WAKABAYASHI
+CP        FAST EUCLID  DISTANCE
+C
+CA        X : FEATURE VECTOR
+CA        MV : MEAN VECTOR
+CA        MV2 : 0.5 * MVt * MV
+CA        N : FEATURE SIZE
+CA        EDF : SQUARE EUCLID DISTANCE
+C
+CS        SUBEDF(X,MV,MV2,N,EDF)
+C
+      DIMENSION X(N),MV(N)
+      REAL MV,MV2
+      REAL EDF
+      REAL TMP
+      TMP=0.0
+      DO 100 I=1,N
+         TMP=TMP+MV(I)*X(I)
+  100    CONTINUE
+      EDF=MV2-TMP
+      RETURN
+      END

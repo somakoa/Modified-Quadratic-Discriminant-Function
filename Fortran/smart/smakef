@@ -1,0 +1,6 @@
+#ライブラリ（smartf.a）の作成，-c:.0ファイルの生成のみ，-O3:プログラムの最適化
+
+gfortran -c  -O3 *.f 
+rm smartf.a
+ar rcv smartf.a *.o
+ranlib smartf.a

@@ -1,0 +1,16 @@
+      SUBROUTINE MKGAUS2(W,NS,ND)
+      REAL W(NS,NS)
+      PARAMETER(FMLNT=1.21876,PAI=3.1415926535)
+C
+      NCENT=NS/2 + 1
+      FLAM=ND*ND/4.0/FMLNT
+      TMP=1.0/(2.0 * FLAM)
+      DO 100 J=1,NS
+        JJ=J-NCENT
+        DO 200 I=1,NS
+          II=I-NCENT
+          W(I,J)=TMP/PAI * EXP(-II*II*TMP) * EXP(-JJ*JJ*TMP)
+  200   CONTINUE
+  100 CONTINUE
+      RETURN
+      END

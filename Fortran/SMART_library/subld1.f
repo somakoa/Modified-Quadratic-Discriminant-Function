@@ -1,0 +1,22 @@
+C
+      SUBROUTINE SUBLD1(X,W,W0,N,LD1)
+C
+CD        CODED BY F.KIMURA
+CP        LINEAR DISCRIMINANT FUNCTION
+C
+CA        X : FEATURE VECTOR
+CA        W : WEIGHT VECTOR
+CA        W0 : CONSTANT
+CA        N : FEATURE SIZE
+C
+CS        LD1(X,W,W0,N)
+C
+      DIMENSION X(N),W(N)
+      REAL LD1
+C
+      LD1=W0
+      DO 400 I=1,N
+         LD1=LD1+W(I)*X(I)
+  400    CONTINUE
+      RETURN
+      END
