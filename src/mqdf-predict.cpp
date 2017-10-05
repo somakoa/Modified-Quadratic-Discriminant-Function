@@ -11,7 +11,7 @@ using namespace Eigen;
 
 
 int main(int argc, char **argv){
-    
+
     string read_path = argv[1];
 
     float alpha = 0.1;
@@ -33,14 +33,14 @@ int main(int argc, char **argv){
 	    break;
 	default:
 	    cerr << "Usage: EXE -p power -k eigenvector_number -a alpha etc..."
-		 << endl; //¤á¤ó¤É¤¤¡¡¸å¤Ç½ñ¤¯
+		 << endl; //ï¿½ï¿½ï¿½ï¿½ï¿½É¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç½ï¿½ï¿½ï¿½
 	    return -1;
 	    break;
 	}
     }
-    
+
     MQDF mqdf(k, alpha);
-    
+
     argc -= optind - 1;
     argv += optind - 1;
 
@@ -59,19 +59,19 @@ int main(int argc, char **argv){
 
 
     /*********************************************************/
-    
-    
+
+
     ofstream output(output_file);
 
-    
+
     // read file
 
 
     /*********************************************************/
 
-    vector<unsigned int> result_label(label_test.size()); 
+    vector<unsigned int> result_label(label_test.size());
     vector<double> similarity(label_test.size());
-			      
+
     for ( unsigned int i = 0; i < label_test.size(); i++ ){
 	mqdf.classify(features_test[i], result_label[i], similarity[i]);
     }
@@ -81,9 +81,9 @@ int main(int argc, char **argv){
     for ( unsigned int i = 0; i < label_test.size(); i++ ){
 
 	output << i << ",\t" <<  label_test[i] << ",\t"<< result_label[i] << ",\t" << similarity[i] << endl;
-	    
+
     }
-    
+
     return 0;
 }
 
@@ -98,7 +98,7 @@ int main(int argc, char **argv){
 
 void loadDictionaryDirectry(MQDF* mqdf, const char* dir_name){
 
-    DIR *dp;    
+    DIR *dp;
     struct dirent* entry;
 
     if(( dp = opendir(dir_name)) == NULL) {
@@ -107,7 +107,7 @@ void loadDictionaryDirectry(MQDF* mqdf, const char* dir_name){
     }
 
     while(( entry = readdir(dp) ) != NULL ) {
-	
+
 	if(strcmp(".", entry->d_name) == 0 || strcmp("..", entry->d_name) == 0)
 	    continue;
 
@@ -116,7 +116,7 @@ void loadDictionaryDirectry(MQDF* mqdf, const char* dir_name){
 	dir_path = dir_path + "/" + file_name;
 
 	mqdf->loadDictionary( dir_path.c_str() );
-	
+
     }
 
 }
@@ -126,7 +126,7 @@ void loadDictionaryDirectry(MQDF* mqdf, const char* dir_name){
 void loadPredictFile(const char* dir_name, unsigned int dimension,
 		     std::vector<unsigned int> &label,
 		     std::vector<Eigen::VectorXd> &features) {
-    
+
     ifstream ifs(dir_name);
     if(ifs.fail()){
 	cerr << "cannot open File : " << dir_name << endl;
@@ -138,12 +138,12 @@ void loadPredictFile(const char* dir_name, unsigned int dimension,
 	getline(ifs, line, '\n');
         if(line.empty())
             break;
-	
+
         stringstream ss(line);
 	int buf;
 	ss >> buf;
 	label.push_back(buf);
-	
+
         string tuple;
         vector<int> idx;
 	vector<double> val_buf;
@@ -157,22 +157,22 @@ void loadPredictFile(const char* dir_name, unsigned int dimension,
 		idx.push_back(_idx-1);
 		val_buf.push_back(_val);
 	    }
-	
+
         vector<double> val(dimension, 0);
-	
+
 	for (unsigned int i = 0; i < idx.size(); i++ ){
 	    val[idx[i]] = val_buf[i];
 	}
-	
+
 	Eigen::VectorXd feature = Eigen::Map<Eigen::VectorXd>(&val[0], val.size());
-	
+
         features.push_back(feature);
 
     }
 
     ifs.close();
-    
-    
-    
-    
+
+
+
+
 }

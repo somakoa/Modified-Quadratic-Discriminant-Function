@@ -15,7 +15,7 @@ float power = 1.0;
 
 int main(int argc, char **argv) {
 
-    
+
     if(argc < 3){
 	cerr << "usage: mqdf-train feature_file output_file" << endl;
 	return -1;
@@ -27,10 +27,10 @@ int main(int argc, char **argv) {
 	switch (op) {
 	case 'p':
 	    power = atof(optarg);
-	    break;   
+	    break;
 	default:
 	    cerr << "Usage: mqdf-train -p power [input_feature_dir] [output_dictionary_dir]" << endl;
-	    //ちゃんと後で書きます
+	    //鐃緒申鐃緒申鐃緒申鐃夙醐申鐃叔書きまわ申
 	    return -1;
 	}
     }
@@ -47,16 +47,16 @@ int main(int argc, char **argv) {
     mqdf.setPow(power);
     loadFeatures_Dir(in_dir, &mqdf);
     mqdf.saveDictionarySet(out_dir);
-    
+
     return 0;
 }
 
 
 
 void loadFeatures_Dir(const char* dir_name, MQDF *mqdf){
-    
-    
-    DIR *dp;    
+
+
+    DIR *dp;
     struct dirent* entry;
 
     if(( dp = opendir(dir_name)) == NULL) {
@@ -65,7 +65,7 @@ void loadFeatures_Dir(const char* dir_name, MQDF *mqdf){
     }
 
     while(( entry = readdir(dp) ) != NULL ) {
-	
+
 	if(strcmp(".", entry->d_name) == 0 || strcmp("..", entry->d_name) == 0)
 	    continue;
 
@@ -75,8 +75,8 @@ void loadFeatures_Dir(const char* dir_name, MQDF *mqdf){
 
 	cout << "make dictionary of " << file_name << endl;
 	loadFeatures(file_path.c_str(), mqdf);
-	
-	
+
+
     }
 
 
@@ -97,7 +97,7 @@ void loadFeatures(const char* file_name, MQDF *mqdf){
     int _label;
 
     unsigned long int samples = 0;
-    
+
     while( in_file.good() ) {
 	string line;
 	getline(in_file, line, '\n');
@@ -109,18 +109,18 @@ void loadFeatures(const char* file_name, MQDF *mqdf){
 	ss >> label;
 	if (samples == 0)
 	    _label = label;
-	
+
 	if(label != _label){
 	    cout << "exist multi label error in lineNumber ... " << samples << endl;
 	    exit(1);
 	}
-	
+
 	string tuple;
 	vector<unsigned int> idx;
 	vector<double> val;
-	while( ss >> tuple ) {	    
+	while( ss >> tuple ) {
 	    if(tuple.empty())
-		break;    
+		break;
             unsigned int _idx;
             double _val;
             sscanf(tuple.c_str(), "%d:%lf", &_idx, &_val);
@@ -129,23 +129,20 @@ void loadFeatures(const char* file_name, MQDF *mqdf){
             idx.push_back(_idx-1);
 	    val.push_back(_val);
 	}
-	
+
         vector<double> feature(dim, 0);
 	for (unsigned int i = 0; i < idx.size(); i++ ){
 	    feature[idx[i]] = val[i];
 	}
 
 	features.push_back(feature);
-	
+
 	samples ++;
     }
 
     for( unsigned int i = 0; i < features.size(); i++ )
 	features[i].resize(dim, 0);
 
-    
+
     mqdf->train_vv(features, label);
-
-
 }
-
