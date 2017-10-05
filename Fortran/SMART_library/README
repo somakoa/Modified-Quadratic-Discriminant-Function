@@ -1,4 +1,0 @@
-smakeO3	 -O3オプションでコンパイルしたライブラリ smartO3.a を作成
-smakeO4  -O4オプションでコンパイルしたライブラリ smartO4.a を作成
-smakefO3 -fast -O3オプションでコンパイルしたライブラリ smartfO3.a を作成
-smakefO4 -fast -O4オプションでコンパイルしたライブラリ smartfO4.a を作成
